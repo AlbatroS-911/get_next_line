@@ -15,17 +15,13 @@ int	main(void)
 		printf("Error opening file");
 		return (1);
 	}
-	while (1)
+	while ((line = get_next_line(fd)) != NULL)
 	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		count++;
-		printf("%d: %s\n", count, line);
+		printf("%d: %s", ++count, line);
 		free(line);
-		line = NULL;
 	}
 	close(fd);
 	printf("Final count: %d\n", count);
 	return (0);
 }
+

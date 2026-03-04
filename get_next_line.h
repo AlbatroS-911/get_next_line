@@ -6,7 +6,7 @@
 /*   By: tokrabem <tokrabem@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 15:40:24 by tokrabem          #+#    #+#             */
-/*   Updated: 2026/02/26 17:21:57 by tokrabem         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:09:45 by tokrabem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 # include "stdlib.h"
 # include "unistd.h"
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 21
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 21
+# endif
 
 char	*get_next_line(int fd);
+char	*ft_strdup(char *str);
+char	*ft_strjoin(char *str1, char *str2);
+size_t	ft_strlen(char *s);
+char	*ft_strchr(const char *s, int c);
+
 #endif
