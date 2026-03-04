@@ -15,7 +15,8 @@ int	main(void)
 		printf("Error opening file");
 		return (1);
 	}
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		printf("%d: %s", ++count, line);
 		free(line);
