@@ -6,7 +6,7 @@
 /*   By: tokrabem <tokrabem@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 15:40:05 by tokrabem          #+#    #+#             */
-/*   Updated: 2026/03/04 13:10:33 by tokrabem         ###   ########.fr       */
+/*   Updated: 2026/03/06 07:42:27 by tokrabem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(char *s)
 {
 	size_t	counter;
 
+	if (!s)
+		return (0);
 	counter = 0;
 	while (s[counter] != '\0')
 		counter++;
@@ -58,7 +60,7 @@ char	*ft_strjoin(char *str1, char *str2)
 	if (!new_str)
 		return (NULL);
 	i = 0;
-	while (str1[i] != '\0')
+	while (str1 && str1[i] != '\0')
 	{
 		new_str[i] = str1[i];
 		i++;

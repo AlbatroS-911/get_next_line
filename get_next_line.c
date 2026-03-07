@@ -6,35 +6,41 @@
 /*   By: tokrabem <tokrabem@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 15:39:41 by tokrabem          #+#    #+#             */
-/*   Updated: 2026/03/04 13:54:04 by tokrabem         ###   ########.fr       */
+/*   Updated: 2026/03/07 09:22:03 by tokrabem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "stdio.h"
+
+static int	line_length(char *str)
+{
+	int	loop;
+
+	loop = 0;
+	while (str[loop] && str[loop] != '\n')
+		loop++;
+	if (str[loop] == '\n')
+		loop++;
+	return (loop);
+}
 
 static char	*get_line(char *str)
 {
 	char	*fresh_line;
 	int		k;
 
-	k = 0;
 	if (!str || !*str)
 		return (NULL);
-	while (str[k] && str[k] != '\n')
-		k++;
-	if (str[k] == '\n')
-		k++;
+	k = line_length(str);
 	fresh_line = malloc((k + 1) * sizeof(char));
 	if (!fresh_line)
-		return(NULL);
+		return (NULL);
 	k = 0;
 	while (str[k] && str[k] != '\n')
 	{
 		fresh_line[k] = str[k];
 		k++;
 	}
-	printf("k = %d\n", k);
 	if (str[k] == '\n')
 	{
 		fresh_line[k] = '\n';
@@ -63,28 +69,41 @@ static void	clear_temp(char **temp)
 	*temp = new_temp;
 }
 
-char	*get_next_line(int fd)
+static char	*read_and_store(int fd, char *temp)
 {
-	static char	*temp;
-	char		*updated_temp;
-	char		*line;
-	char		buffer[BUFFER_SIZE + 1];
-	int			bytes_read;
-	
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	char	*buffer;
+	char	*updated_temp;
+	int		bytes_read;
+
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
 		return (NULL);
 	while (!ft_strchr(temp, '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read <= 0)
-			break;
+			break ;
 		buffer[bytes_read] = '\0';
-		updated_temp = ft_strjoin(temp, buffer);
 		if (!temp)
 			temp = ft_strdup("");
+		updated_temp = ft_strjoin(temp, buffer);
 		free(temp);
 		temp = updated_temp;
 	}
+	free(buffer);
+	return (temp);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*temp;
+	char		*line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	temp = read_and_store(fd, temp);
+	if (!temp)
+		return (NULL);
 	line = get_line(temp);
 	clear_temp(&temp);
 	return (line);
