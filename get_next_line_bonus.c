@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokrabem <tokrabem@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 15:39:41 by tokrabem          #+#    #+#             */
-/*   Updated: 2026/03/12 15:13:06 by tokrabem         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:30:13 by tokrabem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	line_length(char *str)
 {
@@ -96,15 +96,15 @@ static char	*read_and_store(int fd, char *temp)
 
 char	*get_next_line(int fd)
 {
-	static char	*temp;
+	static char	*temp[MAX_FD];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAX_FD || BUFFER_SIZE <= 0)
 		return (NULL);
-	temp = read_and_store(fd, temp);
-	if (!temp)
+	temp[fd] = read_and_store(fd, temp[fd]);
+	if (!temp[fd])
 		return (NULL);
-	line = get_line(temp);
-	clear_temp(&temp);
+	line = get_line(temp[fd]);
+	clear_temp(&temp[fd]);
 	return (line);
 }
